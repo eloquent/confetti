@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>Eloquent\Confetti\TransformStream | eloquent/confetti API</title>
+                    <link rel="stylesheet" type="text/css" href="../../stylesheet.css">
+                            </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../classes.html">Classes</a></li>
+                            <li><a href="../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title">eloquent/confetti API</div>
+
+            <div class="type">Class</div>
+    <h1><a href="../../Eloquent/Confetti.html">Eloquent\Confetti</a>\TransformStream</h1>
+    </div>
+        <div class="content">
+                <p>class    <strong>TransformStream</strong>        extends <abbr title="Evenement\EventEmitter">EventEmitter</abbr>        implements
+        <a href="../../Eloquent/Confetti/TransformStreamInterface.html"><abbr title="Eloquent\Confetti\TransformStreamInterface">TransformStreamInterface</abbr></a></p>
+
+            <div class="description">
+            <p>A stream that applies a transform.</p>
+            <p>
+</p>
+        </div>
+    
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method___construct">__construct</a>(<a href="../../Eloquent/Confetti/TransformInterface.html"><abbr title="Eloquent\Confetti\TransformInterface">TransformInterface</abbr></a> $transform, integer|null $bufferSize = null)
+                    <p>Construct a new data transform stream.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../Eloquent/Confetti/TransformInterface.html"><abbr title="Eloquent\Confetti\TransformInterface">TransformInterface</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_transform">transform</a>()
+                    <p>Get the transform.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    integer
+                </td>
+                <td class="last">
+                    <a href="#method_bufferSize">bufferSize</a>()
+                    <p>Get the buffer size.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    boolean
+                </td>
+                <td class="last">
+                    <a href="#method_isWritable">isWritable</a>()
+                    <p>Returns true if this stream is writable.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    boolean
+                </td>
+                <td class="last">
+                    <a href="#method_isReadable">isReadable</a>()
+                    <p>Returns true if this stream is readable.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    boolean
+                </td>
+                <td class="last">
+                    <a href="#method_write">write</a>(string $data)
+                    <p>Write some data to be transformed.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_end">end</a>(string|null $data = null)
+                    <p>Transform and finalize any remaining buffered data.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_close">close</a>()
+                    <p>Close this stream.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_pause">pause</a>()
+                    <p>Pause this stream.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_resume">resume</a>()
+                    <p>Resume this stream.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <abbr title="React\Stream\WritableStreamInterface">WritableStreamInterface</abbr>
+                </td>
+                <td class="last">
+                    <a href="#method_pipe">pipe</a>(<abbr title="React\Stream\WritableStreamInterface">WritableStreamInterface</abbr> $destination, array $options = array())
+                    <p>Pipe the output of this stream to another stream.</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method___construct">
+        <div class="location">at line 30</div>
+        <code>            public            
+    <strong>__construct</strong>(<a href="../../Eloquent/Confetti/TransformInterface.html"><abbr title="Eloquent\Confetti\TransformInterface">TransformInterface</abbr></a> $transform, integer|null $bufferSize = null)</code>
+    </h3>
+    <div class="details">
+        <p>Construct a new data transform stream.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../Eloquent/Confetti/TransformInterface.html"><abbr title="Eloquent\Confetti\TransformInterface">TransformInterface</abbr></a></td>
+                <td>$transform</td>
+                <td>The data transform to use.</td>
+            </tr>
+                    <tr>
+                <td>integer|null</td>
+                <td>$bufferSize</td>
+                <td>The buffer size in bytes.</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_transform">
+        <div class="location">at line 52</div>
+        <code>            public            <a href="../../Eloquent/Confetti/TransformInterface.html"><abbr title="Eloquent\Confetti\TransformInterface">TransformInterface</abbr></a>
+    <strong>transform</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Get the transform.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../Eloquent/Confetti/TransformInterface.html"><abbr title="Eloquent\Confetti\TransformInterface">TransformInterface</abbr></a></td>
+            <td>The transform.</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_bufferSize">
+        <div class="location">at line 62</div>
+        <code>            public            integer
+    <strong>bufferSize</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Get the buffer size.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>integer</td>
+            <td>The buffer size in bytes.</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_isWritable">
+        <div class="location">at line 72</div>
+        <code>            public            boolean
+    <strong>isWritable</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Returns true if this stream is writable.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>boolean</td>
+            <td>True if writable.</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_isReadable">
+        <div class="location">at line 82</div>
+        <code>            public            boolean
+    <strong>isReadable</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Returns true if this stream is readable.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>boolean</td>
+            <td>True if readable.</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_write">
+        <div class="location">at line 94</div>
+        <code>            public            boolean
+    <strong>write</strong>(string $data)</code>
+    </h3>
+    <div class="details">
+        <p>Write some data to be transformed.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$data</td>
+                <td>The data to transform.</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>boolean</td>
+            <td>True if this stream is ready for more data.</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_end">
+        <div class="location">at line 116</div>
+        <code>            public            
+    <strong>end</strong>(string|null $data = null)</code>
+    </h3>
+    <div class="details">
+        <p>Transform and finalize any remaining buffered data.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string|null</td>
+                <td>$data</td>
+                <td>Additional data to transform before finalizing.</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_close">
+        <div class="location">at line 133</div>
+        <code>            public            
+    <strong>close</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Close this stream.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_pause">
+        <div class="location">at line 145</div>
+        <code>            public            
+    <strong>pause</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Pause this stream.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_resume">
+        <div class="location">at line 153</div>
+        <code>            public            
+    <strong>resume</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Resume this stream.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_pipe">
+        <div class="location">at line 167</div>
+        <code>            public            <abbr title="React\Stream\WritableStreamInterface">WritableStreamInterface</abbr>
+    <strong>pipe</strong>(<abbr title="React\Stream\WritableStreamInterface">WritableStreamInterface</abbr> $destination, array $options = array())</code>
+    </h3>
+    <div class="details">
+        <p>Pipe the output of this stream to another stream.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="React\Stream\WritableStreamInterface">WritableStreamInterface</abbr></td>
+                <td>$destination</td>
+                <td>The destination stream.</td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$options</td>
+                <td>A set of options for the piping process.</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><abbr title="React\Stream\WritableStreamInterface">WritableStreamInterface</abbr></td>
+            <td>The destination stream.</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>
