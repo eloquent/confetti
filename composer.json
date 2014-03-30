@@ -1,0 +1,27 @@
+{
+    "name": "eloquent/confetti",
+    "description": "Streaming data transformation system for PHP.",
+    "keywords": ["stream", "streaming", "data", "transform", "transformation", "filter", "react", "reactphp"],
+    "homepage": "https://github.com/eloquent/confetti",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Erin Millard",
+            "email": "ezzatron@gmail.com",
+            "homepage": "http://ezzatron.com/"
+        }
+    ],
+    "require": {
+        "php": ">=5.3",
+        "evenement/evenement": ">=1,<3",
+        "react/stream": ">=0.3,<0.5"
+    },
+    "require-dev": {
+        "icecave/archer": "~1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Eloquent\\Confetti\\": "src"
+        }
+    }
+}
