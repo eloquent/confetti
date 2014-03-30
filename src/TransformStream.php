@@ -25,7 +25,7 @@ class TransformStream extends EventEmitter implements TransformStreamInterface
      * Construct a new data transform stream.
      *
      * @param TransformInterface $transform  The data transform to use.
-     * @param integer|null           $bufferSize The buffer size in bytes.
+     * @param integer|null       $bufferSize The buffer size in bytes.
      */
     public function __construct(
         TransformInterface $transform,
