@@ -1,0 +1,18 @@
+language: php
+
+php: ["5.3", "5.4", "5.5", "hhvm"]
+
+matrix:
+  allow_failures:
+    - php: hhvm
+
+env:
+  global:
+    - ARCHER_PUBLISH_VERSION=5.5
+    - secure: "l1ylDHbvVKhpMAH/fm6GZEN38R4MsOGQclcR7a5hO9Si8RytH6CmWJAeuT/Pr8B/y0ClQHesmecfGJ8PdJaF5t6AWiGl5Kn2oGm1kEuPxJ6YLRpTs2ELl2slihbDEQ8k3fQIkwKAt5hKHa1ayefzWiyT2nrlpzMEo5RHvCABcws="
+
+install:
+  - ./.travis.install
+
+script:
+  - ./vendor/bin/archer travis:build
