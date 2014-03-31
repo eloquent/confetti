@@ -19,7 +19,7 @@ class AbstractNativeStreamFilterTest extends PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        stream_filter_register('confetti.test', 'Eloquent\Confetti\Test\Base64DecodeNativeStreamFilter');
+        stream_filter_register('confetti.test', 'Base64DecodeNativeStreamFilter');
     }
 
     public function testFilter()

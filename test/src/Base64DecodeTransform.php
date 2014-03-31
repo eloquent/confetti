@@ -9,10 +9,7 @@
  * that was distributed with this source code.
  */
 
-namespace Eloquent\Confetti\Test;
-
 use Eloquent\Confetti\AbstractTransform;
-use Exception;
 
 class Base64DecodeTransform extends AbstractTransform
 {

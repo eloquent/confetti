@@ -28,7 +28,6 @@ The [TransformStream] class provides a simple way to create a [React stream]
 wrapper around a transform. Its usage is as follows:
 
 ```php
-use Eloquent\Confetti\Test\Base64DecodeTransform;
 use Eloquent\Confetti\TransformStream;
 
 $stream = new TransformStream(new Base64DecodeTransform);
@@ -46,8 +45,8 @@ $stream->on(
 );
 
 try {
-    $stream->write('Zm9v');
-    $stream->end('YmFy');
+    $stream->write('Zm9v'); // outputs 'foo'
+    $stream->end('YmFy');   // outputs 'bar'
 } catch (Exception $e) {
     // unable to decode
 }
@@ -152,7 +151,6 @@ A base64 decode transform might be implemented like so:
 
 ```php
 use Eloquent\Confetti\AbstractTransform;
-use Exception;
 
 class Base64DecodeTransform extends AbstractTransform
 {

@@ -11,6 +11,7 @@
 
 namespace Eloquent\Confetti;
 
+use Base64DecodeTransform;
 use Eloquent\Confetti\Test\TestWritableStream;
 use Exception as NativeException;
 use PHPUnit_Framework_TestCase;
@@ -25,7 +26,7 @@ class TransformStreamTest extends PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->transform = new Test\Base64DecodeTransform;
+        $this->transform = new Base64DecodeTransform;
         $this->stream = new TransformStream($this->transform, 6);
 
         $self = $this;

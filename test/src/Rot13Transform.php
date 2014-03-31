@@ -9,14 +9,12 @@
  * that was distributed with this source code.
  */
 
-namespace Eloquent\Confetti\Test;
+use Eloquent\Confetti\TransformInterface;
 
-use Eloquent\Confetti\AbstractNativeStreamFilter;
-
-class Base64DecodeNativeStreamFilter extends AbstractNativeStreamFilter
+class Rot13Transform implements TransformInterface
 {
-    protected function createTransform()
+    public function transform($data, &$context, $isEnd = false)
     {
-        return new Base64DecodeTransform;
+        return array(str_rot13($data), strlen($data));
     }
 }
