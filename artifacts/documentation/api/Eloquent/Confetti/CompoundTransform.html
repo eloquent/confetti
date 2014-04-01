@@ -42,8 +42,17 @@
                 </td>
                 <td class="last">
                     <a href="#method___construct">__construct</a>(array $transforms)
-                    <p>
-</p>
+                    <p>Construct a new compound transform.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <abbr title="Eloquent\Confetti\array&lt;TransformInterface&gt;">array&lt;TransformInterface&gt;</abbr>
+                </td>
+                <td class="last">
+                    <a href="#method_transforms">transforms</a>()
+                    <p>Get the sequence of transforms that are applied to incoming data.</p>
                 </td>
                 <td></td>
             </tr>
@@ -57,29 +66,18 @@
                 </td>
                 <td></td>
             </tr>
-                    <tr>
-                <td class="type">
-                    <abbr title="Eloquent\Confetti\array&lt;TransformInterface&gt;">array&lt;TransformInterface&gt;</abbr>
-                </td>
-                <td class="last">
-                    <a href="#method_transforms">transforms</a>()
-                    <p>Fetch the sequence of transforms that are applied to incoming data.</p>
-                </td>
-                <td></td>
-            </tr>
             </table>
 
 
         <h2>Details</h2>
 
                         <h3 id="method___construct">
-        <div class="location">at line 24</div>
+        <div class="location">at line 26</div>
         <code>            public            
     <strong>__construct</strong>(array $transforms)</code>
     </h3>
     <div class="details">
-        <p>
-</p>
+        <p>Construct a new compound transform.</p>
         <p>
 </p>
         <div class="tags">
@@ -99,8 +97,33 @@
                     </div>
     </div>
 
+                <h3 id="method_transforms">
+        <div class="location">at line 37</div>
+        <code>            public            <abbr title="Eloquent\Confetti\array&lt;TransformInterface&gt;">array&lt;TransformInterface&gt;</abbr>
+    <strong>transforms</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Get the sequence of transforms that are applied to incoming data.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><abbr title="Eloquent\Confetti\array&lt;TransformInterface&gt;">array&lt;TransformInterface&gt;</abbr></td>
+            <td>The transforms.</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
                 <h3 id="method_transform">
-        <div class="location">at line 52</div>
+        <div class="location">at line 67</div>
         <code>            public            <abbr title="Eloquent\Confetti\tuple&lt;string,integer&gt;">tuple&lt;string,integer&gt;</abbr>
     <strong>transform</strong>(string $data, mixed $context, boolean $isEnd = false)</code>
     </h3>
@@ -158,31 +181,6 @@ and only once, at the end of the stream transformation.</p>
             </tr>
             </table>
 
-            
-                    </div>
-    </div>
-
-                <h3 id="method_transforms">
-        <div class="location">at line 97</div>
-        <code>            public            <abbr title="Eloquent\Confetti\array&lt;TransformInterface&gt;">array&lt;TransformInterface&gt;</abbr>
-    <strong>transforms</strong>()</code>
-    </h3>
-    <div class="details">
-        <p>Fetch the sequence of transforms that are applied to incoming data.</p>
-        <p>
-</p>
-        <div class="tags">
-            
-                            <h4>Return Value</h4>
-
-                    <table>
-        <tr>
-            <td><abbr title="Eloquent\Confetti\array&lt;TransformInterface&gt;">array&lt;TransformInterface&gt;</abbr></td>
-            <td>The sequence of transforms.</td>
-        </tr>
-    </table>
-
-            
             
                     </div>
     </div>
