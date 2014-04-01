@@ -46,6 +46,19 @@ class CompoundTransformTest extends PHPUnit_Framework_TestCase
         $this->assertSame($expected, $result);
     }
 
+    public function testTransformWithEmptyString()
+    {
+        $input = '';
+        $expected = array(
+            str_rot13(md5(str_rot13($input))),
+            strlen($input),
+        );
+        $context = null;
+        $result = $this->transform->transform($input, $context, true);
+
+        $this->assertSame($expected, $result);
+    }
+
     public function testTransformByteByByte()
     {
         $input = 'foobar';
