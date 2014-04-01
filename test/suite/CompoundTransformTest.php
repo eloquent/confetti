@@ -11,20 +11,18 @@
 
 namespace Eloquent\Confetti;
 
+use Md5Transform;
 use PHPUnit_Framework_TestCase;
+use Rot13Transform;
 
 class CompoundTransformTest extends PHPUnit_Framework_TestCase
 {
     protected function setUp()
     {
-        $this->transformA = new \Rot13Transform;
-        $this->transformB = new \Md5Transform;
-        $this->transformC = new \Rot13Transform;
-        $this->transforms = array(
-            $this->transformA,
-            $this->transformB,
-            $this->transformC,
-        );
+        $this->transformA = new Rot13Transform;
+        $this->transformB = new Md5Transform;
+        $this->transformC = new Rot13Transform;
+        $this->transforms = array($this->transformA, $this->transformB, $this->transformC);
         $this->transform = new CompoundTransform($this->transforms);
     }
 
@@ -36,11 +34,7 @@ class CompoundTransformTest extends PHPUnit_Framework_TestCase
     public function testTransform()
     {
         $input = 'foobar';
-        $expected = array(
-            str_rot13(md5(str_rot13($input))),
-            strlen($input),
-        );
-        $context = null;
+        $expected = array(str_rot13(md5(str_rot13($input))), strlen($input));
         $result = $this->transform->transform($input, $context, true);
 
         $this->assertSame($expected, $result);
@@ -49,11 +43,7 @@ class CompoundTransformTest extends PHPUnit_Framework_TestCase
     public function testTransformWithEmptyString()
     {
         $input = '';
-        $expected = array(
-            str_rot13(md5(str_rot13($input))),
-            strlen($input),
-        );
-        $context = null;
+        $expected = array(str_rot13(md5(str_rot13($input))), strlen($input));
         $result = $this->transform->transform($input, $context, true);
 
         $this->assertSame($expected, $result);
@@ -62,17 +52,12 @@ class CompoundTransformTest extends PHPUnit_Framework_TestCase
     public function testTransformByteByByte()
     {
         $input = 'foobar';
+        $inputLength = strlen($input);
         $expected = str_rot13(md5(str_rot13($input)));
-        $context = null;
         $result = '';
 
         foreach (str_split($input) as $index => $char) {
-            list($output, $consumed) = $this->transform->transform(
-                $char,
-                $context,
-                $index === strlen($input) - 1
-            );
-
+            list($output, $consumed) = $this->transform->transform($char, $context, $index === $inputLength - 1);
             $result .= $output;
 
             $this->assertSame(1, $consumed);

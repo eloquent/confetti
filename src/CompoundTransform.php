@@ -107,15 +107,10 @@ class CompoundTransform implements TransformInterface
     private function createContext()
     {
         $context = new SplObjectStorage;
-        $context[$this->innerTransform] = (object) array(
-            'context' => null,
-        );
+        $context[$this->innerTransform] = new CompoundTransformSubContext;
 
         foreach ($this->outerTransforms as $transform) {
-            $context[$transform] = (object) array(
-                'buffer' => '',
-                'context' => null,
-            );
+            $context[$transform] = new CompoundTransformSubContext;
         }
 
         return $context;

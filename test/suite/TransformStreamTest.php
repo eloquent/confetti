@@ -31,15 +31,15 @@ class TransformStreamTest extends PHPUnit_Framework_TestCase
 
         $self = $this;
 
+        $this->datasEmitted = $this->endsEmitted = $this->closesEmitted = $this->successesEmitted = 0;
         $this->output = '';
         $this->stream->on(
             'data',
             function ($data, $stream) use ($self) {
+                $self->datasEmitted ++;
                 $self->output .= $data;
             }
         );
-
-        $this->endsEmitted = $this->closesEmitted = $this->successesEmitted = 0;
         $this->stream->on(
             'end',
             function ($codec) use ($self) {
@@ -88,6 +88,7 @@ class TransformStreamTest extends PHPUnit_Framework_TestCase
 
         $this->assertFalse($writeReturn);
         $this->assertSame('', $this->output);
+        $this->assertSame(1, $this->datasEmitted);
         $this->assertSame(1, $this->endsEmitted);
         $this->assertSame(1, $this->closesEmitted);
         $this->assertSame(1, $this->successesEmitted);
@@ -100,6 +101,7 @@ class TransformStreamTest extends PHPUnit_Framework_TestCase
 
         $this->assertFalse($writeReturn);
         $this->assertSame('foo', $this->output);
+        $this->assertSame(1, $this->datasEmitted);
         $this->assertSame(1, $this->endsEmitted);
         $this->assertSame(1, $this->closesEmitted);
         $this->assertSame(1, $this->successesEmitted);
@@ -112,6 +114,7 @@ class TransformStreamTest extends PHPUnit_Framework_TestCase
 
         $this->assertTrue($writeReturn);
         $this->assertSame('foobar', $this->output);
+        $this->assertSame(2, $this->datasEmitted);
         $this->assertSame(1, $this->endsEmitted);
         $this->assertSame(1, $this->closesEmitted);
         $this->assertSame(1, $this->successesEmitted);
@@ -124,6 +127,7 @@ class TransformStreamTest extends PHPUnit_Framework_TestCase
 
         $this->assertTrue($writeReturn);
         $this->assertSame('foobarbaz', $this->output);
+        $this->assertSame(2, $this->datasEmitted);
         $this->assertSame(1, $this->endsEmitted);
         $this->assertSame(1, $this->closesEmitted);
         $this->assertSame(1, $this->successesEmitted);
@@ -134,6 +138,7 @@ class TransformStreamTest extends PHPUnit_Framework_TestCase
         $this->stream->end('');
 
         $this->assertSame('', $this->output);
+        $this->assertSame(1, $this->datasEmitted);
         $this->assertSame(1, $this->endsEmitted);
         $this->assertSame(1, $this->closesEmitted);
         $this->assertSame(1, $this->successesEmitted);
@@ -144,6 +149,7 @@ class TransformStreamTest extends PHPUnit_Framework_TestCase
         $this->stream->end('Zm9v');
 
         $this->assertSame('foo', $this->output);
+        $this->assertSame(1, $this->datasEmitted);
         $this->assertSame(1, $this->endsEmitted);
         $this->assertSame(1, $this->closesEmitted);
         $this->assertSame(1, $this->successesEmitted);
@@ -154,6 +160,7 @@ class TransformStreamTest extends PHPUnit_Framework_TestCase
         $this->stream->end('Zm9vYmFy');
 
         $this->assertSame('foobar', $this->output);
+        $this->assertSame(1, $this->datasEmitted);
         $this->assertSame(1, $this->endsEmitted);
         $this->assertSame(1, $this->closesEmitted);
         $this->assertSame(1, $this->successesEmitted);
@@ -164,6 +171,7 @@ class TransformStreamTest extends PHPUnit_Framework_TestCase
         $this->stream->end('Zm9vYmFyYmF6');
 
         $this->assertSame('foobarbaz', $this->output);
+        $this->assertSame(1, $this->datasEmitted);
         $this->assertSame(1, $this->endsEmitted);
         $this->assertSame(1, $this->closesEmitted);
         $this->assertSame(1, $this->successesEmitted);
@@ -187,6 +195,7 @@ class TransformStreamTest extends PHPUnit_Framework_TestCase
 
         $this->assertFalse($this->stream->write('YmF6'));
         $this->assertSame('foo', $this->output);
+        $this->assertSame(1, $this->datasEmitted);
         $this->assertSame(1, $this->endsEmitted);
         $this->assertSame(1, $this->closesEmitted);
         $this->assertSame(1, $this->successesEmitted);
@@ -236,6 +245,7 @@ class TransformStreamTest extends PHPUnit_Framework_TestCase
 
         $this->assertTrue($writeReturn);
         $this->assertSame('foobar', $this->output);
+        $this->assertSame(1, $this->datasEmitted);
         $this->assertSame(0, $this->endsEmitted);
         $this->assertSame(0, $this->closesEmitted);
         $this->assertSame(array(), $this->errorsEmitted);
@@ -244,6 +254,7 @@ class TransformStreamTest extends PHPUnit_Framework_TestCase
 
         $this->assertFalse($writeReturn);
         $this->assertSame('foobar', $this->output);
+        $this->assertSame(1, $this->datasEmitted);
         $this->assertSame(1, $this->endsEmitted);
         $this->assertSame(1, $this->closesEmitted);
         $this->assertEquals(array($errorA), $this->errorsEmitted);
@@ -252,6 +263,7 @@ class TransformStreamTest extends PHPUnit_Framework_TestCase
 
         $this->assertFalse($writeReturn);
         $this->assertSame('foobar', $this->output);
+        $this->assertSame(1, $this->datasEmitted);
         $this->assertSame(1, $this->endsEmitted);
         $this->assertSame(1, $this->closesEmitted);
         $this->assertEquals(array($errorA, $errorB), $this->errorsEmitted);
@@ -260,6 +272,7 @@ class TransformStreamTest extends PHPUnit_Framework_TestCase
 
         $this->assertFalse($writeReturn);
         $this->assertSame('foobar', $this->output);
+        $this->assertSame(1, $this->datasEmitted);
         $this->assertSame(1, $this->endsEmitted);
         $this->assertSame(1, $this->closesEmitted);
         $this->assertEquals(array($errorA, $errorB), $this->errorsEmitted);

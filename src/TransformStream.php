@@ -184,15 +184,10 @@ class TransformStream extends EventEmitter implements TransformStreamInterface
 
         while (true) {
             $bufferLength = strlen($this->buffer);
-            if (!$bufferLength) {
-                if ($this->isEnding) {
-                    $this->doClose();
-                }
-
+            if ($this->isPaused) {
                 break;
             }
-
-            if ($this->isPaused) {
+            if (!$this->isEnding && !$bufferLength) {
                 break;
             }
             if (!$this->isEnding && $bufferLength < $this->bufferSize) {
@@ -219,6 +214,10 @@ class TransformStream extends EventEmitter implements TransformStreamInterface
             }
 
             $this->emit('data', array($outputBuffer, $this));
+
+            if ($this->isEnding && $bufferLength === $consumed) {
+                $this->doClose();
+            }
         }
 
         return $totalConsumed > 0;
