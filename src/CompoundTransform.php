@@ -19,12 +19,27 @@ use SplObjectStorage;
 class CompoundTransform implements TransformInterface
 {
     /**
+     * Construct a new compound transform.
+     *
      * @param array<TransformInterface> $transforms The sequence of transforms to apply to incoming data.
      */
     public function __construct(array $transforms)
     {
         $this->innerTransform  = array_shift($transforms);
         $this->outerTransforms = $transforms;
+    }
+
+    /**
+     * Get the sequence of transforms that are applied to incoming data.
+     *
+     * @return array<TransformInterface> The transforms.
+     */
+    public function transforms()
+    {
+        return array_merge(
+            array($this->innerTransform),
+            $this->outerTransforms
+        );
     }
 
     /**
@@ -89,22 +104,6 @@ class CompoundTransform implements TransformInterface
         return array($data, $actualBytesConsumed);
     }
 
-    /**
-     * Fetch the sequence of transforms that are applied to incoming data.
-     *
-     * @return array<TransformInterface> The sequence of transforms.
-     */
-    public function transforms()
-    {
-        return array_merge(
-            array($this->innerTransform),
-            $this->outerTransforms
-        );
-    }
-
-    /**
-     * @return SplObjectStorage
-     */
     private function createContext()
     {
         $context = new SplObjectStorage;
