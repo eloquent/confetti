@@ -9,6 +9,7 @@
  * that was distributed with this source code.
  */
 
+use Eloquent\Confetti\CompoundTransform;
 use Eloquent\Confetti\TransformStream;
 
 class DocumentationTest extends PHPUnit_Framework_TestCase
@@ -37,6 +38,26 @@ try {
 } catch (Exception $e) {
     // unable to decode
 }
+    }
+
+    // =========================================================================
+
+    public function testCompoundStreamUsage()
+    {
+        $this->expectOutputString('foobar');
+
+$stream = new TransformStream(
+    new CompoundTransform(array(new Rot13Transform, new Base64DecodeTransform))
+);
+$stream->on(
+    'data',
+    function ($data, $stream) {
+        echo $data;
+    }
+);
+
+$stream->write('Mz9i'); // outputs 'foo'
+$stream->end('LzSl');   // outputs 'bar'
     }
 
     // =========================================================================

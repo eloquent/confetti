@@ -16,7 +16,7 @@ use SplObjectStorage;
 /**
  * A transform that combines several other transforms in sequence.
  */
-class CompoundTransform implements TransformInterface
+class CompoundTransform implements CompoundTransformInterface
 {
     /**
      * Construct a new compound transform.

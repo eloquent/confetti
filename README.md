@@ -52,6 +52,30 @@ try {
 }
 ```
 
+### Combining transforms
+
+Any number of transforms can be combined into a single transform instance by
+using the [CompoundTransform] class. This is useful for creating streams that
+apply multiple transforms in sequence:
+
+```php
+use Eloquent\Confetti\CompoundTransform;
+use Eloquent\Confetti\TransformStream;
+
+$stream = new TransformStream(
+    new CompoundTransform(array(new Rot13Transform, new Base64DecodeTransform))
+);
+$stream->on(
+    'data',
+    function ($data, $stream) {
+        echo $data;
+    }
+);
+
+$stream->write('Mz9i'); // outputs 'foo'
+$stream->end('LzSl');   // outputs 'bar'
+```
+
 ## Implementing a transform
 
 At the heart of *Confetti* lies the [TransformInterface] interface. A correctly
@@ -238,6 +262,7 @@ $stream->end('bar'); // outputs '3858f62230ac3c915f300c664312c63f'
 
 <!-- References -->
 
+[CompoundTransform]: http://lqnt.co/confetti/artifacts/documentation/api/Eloquent/Confetti/CompoundTransform.html
 [Endec]: https://github.com/eloquent/endec
 [Lockbox]: https://github.com/eloquent/lockbox-php
 [native PHP stream filters]: http://php.net/stream.filters
