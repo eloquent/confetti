@@ -127,6 +127,29 @@ echo file_get_contents($path); // outputs 'sbbone'
 
     // =========================================================================
 
+    public function testTransformNativeFilterFailureUsage()
+    {
+        $path = sprintf('%s/%s', sys_get_temp_dir(), uniqid('confetti-'));
+        $this->expectOutputString('Decoding failed.');
+
+stream_filter_register(
+    'confetti.base64decode',
+    'Base64DecodeNativeStreamFilter'
+);
+
+// $path = '/path/to/file';
+$stream = fopen($path, 'wb');
+stream_filter_append($stream, 'confetti.base64decode');
+if (!fwrite($stream, '!!!!')) {
+    echo 'Decoding failed.';
+}
+fclose($stream);
+
+        unlink($path);
+    }
+
+    // =========================================================================
+
     public function testMd5TransformUsage()
     {
         $this->expectOutputString('3858f62230ac3c915f300c664312c63f');

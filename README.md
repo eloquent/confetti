@@ -179,6 +179,24 @@ fclose($stream);
 echo file_get_contents($path); // outputs 'sbbone'
 ```
 
+Note that the only way to detect a native stream filter failure is to check the
+length of data written. If the length is 0, it indicates an error:
+
+```php
+stream_filter_register(
+    'confetti.base64decode',
+    'Base64DecodeNativeStreamFilter'
+);
+
+$path = '/path/to/file';
+$stream = fopen($path, 'wb');
+stream_filter_append($stream, 'confetti.base64decode');
+if (!fwrite($stream, '!!!!')) {
+    echo 'Decoding failed.';
+}
+fclose($stream);
+```
+
 ## Complex transforms
 
 More complex transforms may not be able to consume data byte-by-byte. As an
