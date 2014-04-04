@@ -25,7 +25,8 @@ data transform usage, see [Endec], and [Lockbox].
 ## Transform streams
 
 The [TransformStream] class provides a simple way to create a [React stream]
-wrapper around a transform. Its usage is as follows:
+wrapper around a transform. It implements both [ReadableStreamInterface] and
+[WritableStreamInterface]. Its usage is as follows:
 
 ```php
 use Eloquent\Confetti\TransformStream;
@@ -300,10 +301,12 @@ $stream->end('bar'); // outputs '3858f62230ac3c915f300c664312c63f'
 [Endec]: https://github.com/eloquent/endec
 [Lockbox]: https://github.com/eloquent/lockbox-php
 [native PHP stream filters]: http://php.net/stream.filters
-[React stream]: https://github.com/reactphp/react#high-level-abstractions
-[React streams]: https://github.com/reactphp/react#high-level-abstractions
+[React stream]: https://github.com/reactphp/react/tree/0.4/src/Stream
+[React streams]: https://github.com/reactphp/react/tree/0.4/src/Stream
+[ReadableStreamInterface]: https://github.com/reactphp/react/blob/0.4/src/Stream/ReadableStreamInterface.php
 [TransformInterface]: http://lqnt.co/confetti/artifacts/documentation/api/Eloquent/Confetti/TransformInterface.html
 [TransformStream]: http://lqnt.co/confetti/artifacts/documentation/api/Eloquent/Confetti/TransformStream.html
+[WritableStreamInterface]: https://github.com/reactphp/react/blob/0.4/src/Stream/WritableStreamInterface.php
 
 [API documentation]: http://lqnt.co/confetti/artifacts/documentation/api/
 [Composer]: http://getcomposer.org/
