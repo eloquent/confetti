@@ -42,6 +42,23 @@ try {
 
     // =========================================================================
 
+    public function testStreamSuccessEventUsage()
+    {
+        $stream = new TransformStream(new Rot13Transform);
+        $this->expectOutputString('Rot13Transform');
+
+$stream->on(
+    'success',
+    function ($stream) {
+        echo get_class($stream->transform());
+    }
+);
+
+        $stream->end();
+    }
+
+    // =========================================================================
+
     public function testCompoundStreamUsage()
     {
         $this->expectOutputString('foobar');

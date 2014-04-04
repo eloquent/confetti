@@ -52,6 +52,22 @@ try {
 }
 ```
 
+### The `success` event
+
+In addition to the events used by [React streams] \(`data`, `end`, `close`,
+`error`), The [TransformStream] class will emit a `success` event upon closing
+if there have been no errors. The `success` callback will be passed the stream,
+and can access the inner transform by calling `$stream->transform()`:
+
+```php
+$stream->on(
+    'success',
+    function ($stream) {
+        echo get_class($stream->transform());
+    }
+);
+```
+
 ### Combining transforms
 
 Any number of transforms can be combined into a single transform instance by
