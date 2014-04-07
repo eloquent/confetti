@@ -11,7 +11,6 @@
 
 namespace Eloquent\Confetti;
 
-use Exception;
 use php_user_filter;
 
 /**
@@ -35,14 +34,14 @@ abstract class AbstractNativeStreamFilter extends php_user_filter
     /**
      * Filter the input data through the transform.
      *
-     * @param resource $input          The input bucket brigade.
-     * @param resource $output         The output bucket brigade.
-     * @param integer  &$consumedBytes The number of bytes consumed.
-     * @param boolean  $isEnd          True if the stream is closing.
+     * @param resource $input     The input bucket brigade.
+     * @param resource $output    The output bucket brigade.
+     * @param integer  &$consumed The number of bytes consumed.
+     * @param boolean  $isEnd     True if the stream is closing.
      *
      * @return integer The result code.
      */
-    public function filter($input, $output, &$consumedBytes, $isEnd)
+    public function filter($input, $output, &$consumed, $isEnd)
     {
         if ($isEnd) {
             $bucket = stream_bucket_new(STDIN, '');
@@ -55,24 +54,24 @@ abstract class AbstractNativeStreamFilter extends php_user_filter
             $this->buffer .= $bucket->data;
             $bufferLength = strlen($this->buffer);
 
-            try {
-                list($outputBuffer, $thisConsumedBytes) = $this->transform
-                    ->transform($this->buffer, $this->context, $isEnd);
-            } catch (Exception $e) {
-                return PSFS_ERR_FATAL;
-            }
+            list($outputBuffer, $thisConsumed, $error) = $this->transform
+                ->transform($this->buffer, $this->context, $isEnd);
 
-            $consumedBytes += $thisConsumedBytes;
-            if ($bufferLength === $thisConsumedBytes) {
+            $consumed += $thisConsumed;
+            if ($bufferLength === $thisConsumed) {
                 $this->buffer = '';
             } else {
-                $this->buffer = substr($this->buffer, $thisConsumedBytes);
+                $this->buffer = substr($this->buffer, $thisConsumed);
             }
 
             if ('' !== $outputBuffer) {
                 $bucket->data = $outputBuffer;
                 stream_bucket_append($output, $bucket);
                 $hasOutput = true;
+            }
+
+            if (null !== $error) {
+                return PSFS_ERR_FATAL;
             }
 
             $bucket = stream_bucket_make_writeable($input);

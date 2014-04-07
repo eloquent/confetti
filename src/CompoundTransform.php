@@ -61,8 +61,7 @@ class CompoundTransform implements CompoundTransformInterface
      * @param mixed   &$context An arbitrary context value.
      * @param boolean $isEnd    True if all supplied data must be transformed.
      *
-     * @return tuple<string,integer> A 2-tuple of the transformed data, and the number of bytes consumed.
-     * @throws Exception             If the data cannot be transformed.
+     * @return tuple<string,integer,mixed> A 3-tuple of the transformed data, the number of bytes consumed, and any resulting error.
      */
     public function transform($data, &$context, $isEnd = false)
     {
@@ -73,7 +72,7 @@ class CompoundTransform implements CompoundTransformInterface
         // Transform the data using the inner most transform. This step is
         // performed separately as unlike the outer transforms no buffering
         // is performed.
-        list($data, $actualBytesConsumed) = $this->innerTransform->transform(
+        list($data, $actualConsumed, $error) = $this->innerTransform->transform(
             $data,
             $context[$this->innerTransform]->context,
             $isEnd
@@ -82,10 +81,14 @@ class CompoundTransform implements CompoundTransformInterface
         // Iterate through each of the inner transforms, shunting output data
         // from one to the input buffer of the next.
         foreach ($this->outerTransforms as $transform) {
+            if (null !== $error) {
+                return array($data, $actualConsumed, $error);
+            }
+
             $currentContext = $context[$transform];
             $currentContext->buffer .= $data;
 
-            list($data, $bytesConsumed) = $transform->transform(
+            list($data, $bytesConsumed, $error) = $transform->transform(
                 $currentContext->buffer,
                 $currentContext->context,
                 $isEnd
@@ -101,7 +104,7 @@ class CompoundTransform implements CompoundTransformInterface
             }
         }
 
-        return array($data, $actualBytesConsumed);
+        return array($data, $actualConsumed, $error);
     }
 
     private function createContext()

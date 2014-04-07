@@ -27,6 +27,6 @@ class Md5Transform implements TransformInterface
             $output = '';
         }
 
-        return array($output, strlen($data));
+        return array($output, strlen($data), null);
     }
 }
