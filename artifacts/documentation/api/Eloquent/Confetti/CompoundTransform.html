@@ -58,7 +58,7 @@
             </tr>
                     <tr>
                 <td class="type">
-                    <abbr title="Eloquent\Confetti\tuple&lt;string,integer&gt;">tuple&lt;string,integer&gt;</abbr>
+                    <abbr title="Eloquent\Confetti\tuple&lt;string,integer,mixed&gt;">tuple&lt;string,integer,mixed&gt;</abbr>
                 </td>
                 <td class="last">
                     <a href="#method_transform">transform</a>(string $data, mixed $context, boolean $isEnd = false)
@@ -123,8 +123,8 @@
     </div>
 
                 <h3 id="method_transform">
-        <div class="location">at line 67</div>
-        <code>            public            <abbr title="Eloquent\Confetti\tuple&lt;string,integer&gt;">tuple&lt;string,integer&gt;</abbr>
+        <div class="location">at line 66</div>
+        <code>            public            <abbr title="Eloquent\Confetti\tuple&lt;string,integer,mixed&gt;">tuple&lt;string,integer,mixed&gt;</abbr>
     <strong>transform</strong>(string $data, mixed $context, boolean $isEnd = false)</code>
     </h3>
     <div class="details">
@@ -166,21 +166,12 @@ and only once, at the end of the stream transformation.</p>
 
                     <table>
         <tr>
-            <td><abbr title="Eloquent\Confetti\tuple&lt;string,integer&gt;">tuple&lt;string,integer&gt;</abbr></td>
-            <td>A 2-tuple of the transformed data, and the number of bytes consumed.</td>
+            <td><abbr title="Eloquent\Confetti\tuple&lt;string,integer,mixed&gt;">tuple&lt;string,integer,mixed&gt;</abbr></td>
+            <td>A 3-tuple of the transformed data, the number of bytes consumed, and any resulting error.</td>
         </tr>
     </table>
 
             
-                            <h4>Exceptions</h4>
-
-                    <table>
-                    <tr>
-                <td><a href="http://php.net/Exception"><abbr title="Exception">Exception</abbr></a></td>
-                <td>If the data cannot be transformed.</td>
-            </tr>
-            </table>
-
             
                     </div>
     </div>
