@@ -88,7 +88,7 @@ class CompoundTransform implements CompoundTransformInterface
             $currentContext = $context[$transform];
             $currentContext->buffer .= $data;
 
-            list($data, $bytesConsumed, $error) = $transform->transform(
+            list($data, $consumed, $error) = $transform->transform(
                 $currentContext->buffer,
                 $currentContext->context,
                 $isEnd
@@ -96,7 +96,7 @@ class CompoundTransform implements CompoundTransformInterface
 
             $currentContext->buffer = substr(
                 $currentContext->buffer,
-                $bytesConsumed
+                $consumed
             );
 
             if (false === $currentContext->buffer) {

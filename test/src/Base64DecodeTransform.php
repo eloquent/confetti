@@ -17,7 +17,7 @@ class Base64DecodeTransform extends AbstractTransform
     {
         $consume = $this->blocksSize(strlen($data), 4, $isEnd);
         if (!$consume) {
-            return array('', 0, null);
+            return array(null, 0, null);
         }
 
         $consumedData = substr($data, 0, $consume);

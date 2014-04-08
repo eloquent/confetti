@@ -204,7 +204,11 @@ class TransformStream extends EventEmitter implements TransformStreamInterface
                 $this->buffer = substr($this->buffer, $consumed);
             }
 
-            if (null !== $output) {
+            if ($this->isEnding || null !== $output) {
+                if (null === $output) {
+                    $output = '';
+                }
+
                 $this->emit('data', array($output, $this));
             }
 

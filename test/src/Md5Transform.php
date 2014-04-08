@@ -24,7 +24,7 @@ class Md5Transform implements TransformInterface
         if ($isEnd) {
             $output = hash_final($context);
         } else {
-            $output = '';
+            $output = null;
         }
 
         return array($output, strlen($data), null);
