@@ -12,7 +12,6 @@
 namespace Eloquent\Confetti;
 
 use Evenement\EventEmitter;
-use Exception as NativeException;
 use React\Stream\Util;
 use React\Stream\WritableStreamInterface;
 
@@ -194,16 +193,8 @@ class TransformStream extends EventEmitter implements TransformStreamInterface
                 break;
             }
 
-            try {
-                list($outputBuffer, $consumed) = $this->transform
-                    ->transform($this->buffer, $this->context, $this->isEnding);
-            } catch (NativeException $e) {
-                $this->hasError = true;
-                $this->emit('error', array($e, $this));
-                $this->doClose();
-
-                return false;
-            }
+            list($output, $consumed, $error) = $this->transform
+                ->transform($this->buffer, $this->context, $this->isEnding);
 
             $totalConsumed += $consumed;
 
@@ -213,7 +204,17 @@ class TransformStream extends EventEmitter implements TransformStreamInterface
                 $this->buffer = substr($this->buffer, $consumed);
             }
 
-            $this->emit('data', array($outputBuffer, $this));
+            if ($this->isEnding || '' !== $output) {
+                $this->emit('data', array($output, $this));
+            }
+
+            if (null !== $error) {
+                $this->hasError = true;
+                $this->emit('error', array($error, $this));
+                $this->doClose();
+
+                return false;
+            }
 
             if ($this->isEnding && $bufferLength === $consumed) {
                 $this->doClose();

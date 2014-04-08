@@ -2,7 +2,7 @@
 
 *Streaming data transformation system for PHP.*
 
-[![The most recent stable version is 0.1.0][version-image]][Semantic versioning]
+[![The most recent stable version is 0.2.0][version-image]][Semantic versioning]
 [![Current build status image][build-image]][Current build status]
 [![Current coverage status image][coverage-image]][Current coverage status]
 
@@ -108,15 +108,15 @@ class Rot13Transform implements TransformInterface
 {
     public function transform($data, &$context, $isEnd = false)
     {
-        return array(str_rot13($data), strlen($data));
+        return array(str_rot13($data), strlen($data), null);
     }
 }
 ```
 
 The transform receives an arbitrary amount of data as a string, and returns an
-tuple (array) where the first element is the transformed data, and the second
-element is the amount of data consumed in bytes. In this example, the data is
-always completely consumed.
+tuple (array) where the first element is the transformed data, the second
+element is the amount of data consumed in bytes (in this example, the data is
+always completely consumed), and the third element is any error that occurred.
 
 This transform can now be utilized in several ways. To apply the transform to a
 string, simply call `transform()` with a boolean true for the `$isEnd` argument:
@@ -217,20 +217,20 @@ class Base64DecodeTransform extends AbstractTransform
     {
         $consume = $this->blocksSize(strlen($data), 4, $isEnd);
         if (!$consume) {
-            return array('', 0);
+            return array('', 0, null);
         }
 
         $consumedData = substr($data, 0, $consume);
         if (1 === strlen(rtrim($consumedData, '=')) % 4) {
-            throw new Exception('Base64 decode failed.');
+            return array('', 0, new Exception('Base64 decode failed.'));
         }
 
         $outputBuffer = base64_decode($consumedData, true);
         if (false === $outputBuffer) {
-            throw new Exception('Base64 decode failed.');
+            return array('', 0, new Exception('Base64 decode failed.'));
         }
 
-        return array($outputBuffer, $consume);
+        return array($outputBuffer, $consume, null);
     }
 }
 ```
@@ -239,7 +239,7 @@ This transform will now decode blocks of base64 data and append the result to
 the output buffer. The call to `AbstractTransform::blocksSize()` ensures that
 data is only consumed in blocks of 4 bytes at a time. If an invalid byte is
 passed, or the data stream ends at an invalid number of bytes, an exception is
-thrown to indicate the error.
+returned as the third tuple element to indicate the error.
 
 ## The context parameter
 
@@ -272,7 +272,7 @@ class Md5Transform implements TransformInterface
             $output = '';
         }
 
-        return array($output, strlen($data));
+        return array($output, strlen($data), null);
     }
 }
 ```
@@ -316,4 +316,4 @@ $stream->end('bar'); // outputs '3858f62230ac3c915f300c664312c63f'
 [Current coverage status]: https://coveralls.io/r/eloquent/confetti
 [eloquent/confetti]: https://packagist.org/packages/eloquent/confetti
 [Semantic versioning]: http://semver.org/
-[version-image]: http://img.shields.io/:semver-0.1.0-yellow.svg "This project uses semantic versioning"
+[version-image]: http://img.shields.io/:semver-0.2.0-yellow.svg "This project uses semantic versioning"

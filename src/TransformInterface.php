@@ -11,8 +11,6 @@
 
 namespace Eloquent\Confetti;
 
-use Exception;
-
 /**
  * The interface implemented by stream transforms.
  */
@@ -37,8 +35,7 @@ interface TransformInterface
      * @param mixed   &$context An arbitrary context value.
      * @param boolean $isEnd    True if all supplied data must be transformed.
      *
-     * @return tuple<string,integer> A 2-tuple of the transformed data, and the number of bytes consumed.
-     * @throws Exception             If the data cannot be transformed.
+     * @return tuple<string,integer,mixed> A 3-tuple of the transformed data, the number of bytes consumed, and any resulting error.
      */
     public function transform($data, &$context, $isEnd = false);
 }

@@ -11,7 +11,9 @@
 
 namespace Eloquent\Confetti;
 
+use Base64DecodeTransform;
 use Md5Transform;
+use Phake;
 use PHPUnit_Framework_TestCase;
 use Rot13Transform;
 
@@ -34,7 +36,7 @@ class CompoundTransformTest extends PHPUnit_Framework_TestCase
     public function testTransform()
     {
         $input = 'foobar';
-        $expected = array(str_rot13(md5(str_rot13($input))), strlen($input));
+        $expected = array(str_rot13(md5(str_rot13($input))), strlen($input), null);
         $result = $this->transform->transform($input, $context, true);
 
         $this->assertSame($expected, $result);
@@ -43,7 +45,7 @@ class CompoundTransformTest extends PHPUnit_Framework_TestCase
     public function testTransformWithEmptyString()
     {
         $input = '';
-        $expected = array(str_rot13(md5(str_rot13($input))), strlen($input));
+        $expected = array(str_rot13(md5(str_rot13($input))), strlen($input), null);
         $result = $this->transform->transform($input, $context, true);
 
         $this->assertSame($expected, $result);
@@ -64,5 +66,32 @@ class CompoundTransformTest extends PHPUnit_Framework_TestCase
         }
 
         $this->assertSame($expected, $result);
+    }
+
+    public function testTransformErrorSingleTransform()
+    {
+        $this->transform = new CompoundTransform(array(new Base64DecodeTransform));
+        list($output, $consumed, $error) = $this->transform->transform('!!!!', $context, true);
+
+        $this->setExpectedException('Exception', 'Base64 decode failed.');
+        throw $error;
+    }
+
+    public function testTransformErrorMultipleTransforms()
+    {
+        $this->transformA = Phake::partialMock('Base64DecodeTransform');
+        $this->transformB = Phake::partialMock('Base64DecodeTransform');
+        $this->transformC = Phake::partialMock('Base64DecodeTransform');
+        $this->transforms = array($this->transformA, $this->transformB, $this->transformC);
+        $this->transform = new CompoundTransform($this->transforms);
+        list($output, $consumed, $error) = $this->transform->transform('ISEhIQ==', $context, true);
+
+        Phake::inOrder(
+            Phake::verify($this->transformA)->transform('ISEhIQ==', $this->anything(), true),
+            Phake::verify($this->transformB)->transform('!!!!', $this->anything(), true)
+        );
+        Phake::verify($this->transformC, Phake::never())->transform(Phake::anyParameters());
+        $this->setExpectedException('Exception', 'Base64 decode failed.');
+        throw $error;
     }
 }

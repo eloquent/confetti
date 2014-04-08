@@ -15,6 +15,6 @@ class Rot13Transform implements TransformInterface
 {
     public function transform($data, &$context, $isEnd = false)
     {
-        return array(str_rot13($data), strlen($data));
+        return array(str_rot13($data), strlen($data), null);
     }
 }
