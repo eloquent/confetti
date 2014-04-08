@@ -64,7 +64,7 @@ abstract class AbstractNativeStreamFilter extends php_user_filter
                 $this->buffer = substr($this->buffer, $thisConsumed);
             }
 
-            if (null !== $outputBuffer) {
+            if ('' !== $outputBuffer) {
                 $bucket->data = $outputBuffer;
                 stream_bucket_append($output, $bucket);
                 $hasOutput = true;

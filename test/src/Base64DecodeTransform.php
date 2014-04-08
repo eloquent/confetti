@@ -17,17 +17,17 @@ class Base64DecodeTransform extends AbstractTransform
     {
         $consume = $this->blocksSize(strlen($data), 4, $isEnd);
         if (!$consume) {
-            return array(null, 0, null);
+            return array('', 0, null);
         }
 
         $consumedData = substr($data, 0, $consume);
         if (1 === strlen(rtrim($consumedData, '=')) % 4) {
-            return array(null, 0, new Exception('Base64 decode failed.'));
+            return array('', 0, new Exception('Base64 decode failed.'));
         }
 
         $outputBuffer = base64_decode($consumedData, true);
         if (false === $outputBuffer) {
-            return array(null, 0, new Exception('Base64 decode failed.'));
+            return array('', 0, new Exception('Base64 decode failed.'));
         }
 
         return array($outputBuffer, $consume, null);
