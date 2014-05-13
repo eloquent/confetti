@@ -35,15 +35,6 @@ class Base64DecodeTransform extends AbstractTransform implements
         return array($outputBuffer, $consume, null);
     }
 
-    /**
-     * Get the buffer size.
-     *
-     * This method is used to determine how much input is typically required
-     * before output can be produced. This can provide performance benefits by
-     * avoiding excessive method calls.
-     *
-     * @return integer The buffer size.
-     */
     public function bufferSize()
     {
         return 4;

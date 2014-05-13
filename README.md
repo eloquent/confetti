@@ -210,8 +210,10 @@ A base64 decode transform might be implemented like so:
 
 ```php
 use Eloquent\Confetti\AbstractTransform;
+use Eloquent\Confetti\BufferedTransformInterface;
 
-class Base64DecodeTransform extends AbstractTransform
+class Base64DecodeTransform extends AbstractTransform implements
+    BufferedTransformInterface
 {
     public function transform($data, &$context, $isEnd = false)
     {
@@ -232,11 +234,18 @@ class Base64DecodeTransform extends AbstractTransform
 
         return array($outputBuffer, $consume, null);
     }
+
+    public function bufferSize()
+    {
+        return 4;
+    }
 }
 ```
 
 This transform will now decode blocks of base64 data and append the result to
-the output buffer. The call to `AbstractTransform::blocksSize()` ensures that
+the output buffer. The `bufferSize()` method suggests an appropriate buffer size
+for classes that consume this transform (in this case, 4 bytes - the size of a
+base64 block), and the call to `AbstractTransform::blocksSize()` ensures that
 data is only consumed in blocks of 4 bytes at a time. If an invalid byte is
 passed, or the data stream ends at an invalid number of bytes, an exception is
 returned as the third tuple element to indicate the error.
