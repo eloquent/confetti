@@ -10,8 +10,10 @@
  */
 
 use Eloquent\Confetti\AbstractTransform;
+use Eloquent\Confetti\BufferedTransformInterface;
 
-class Base64DecodeTransform extends AbstractTransform
+class Base64DecodeTransform extends AbstractTransform implements
+    BufferedTransformInterface
 {
     public function transform($data, &$context, $isEnd = false)
     {
@@ -31,5 +33,19 @@ class Base64DecodeTransform extends AbstractTransform
         }
 
         return array($outputBuffer, $consume, null);
+    }
+
+    /**
+     * Get the buffer size.
+     *
+     * This method is used to determine how much input is typically required
+     * before output can be produced. This can provide performance benefits by
+     * avoiding excessive method calls.
+     *
+     * @return integer The buffer size.
+     */
+    public function bufferSize()
+    {
+        return 4;
     }
 }
