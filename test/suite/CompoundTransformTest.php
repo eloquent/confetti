@@ -33,6 +33,18 @@ class CompoundTransformTest extends PHPUnit_Framework_TestCase
         $this->assertSame($this->transforms, $this->transform->transforms());
     }
 
+    public function testBufferSizeDefault()
+    {
+        $this->assertSame(1024, $this->transform->bufferSize());
+    }
+
+    public function testBufferSizeWithBuffered()
+    {
+        $this->transform = new CompoundTransform(array(new Base64DecodeTransform));
+
+        $this->assertSame(4, $this->transform->bufferSize());
+    }
+
     public function testTransform()
     {
         $input = 'foobar';

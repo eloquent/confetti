@@ -16,7 +16,8 @@ use SplObjectStorage;
 /**
  * A transform that combines several other transforms in sequence.
  */
-class CompoundTransform implements CompoundTransformInterface
+class CompoundTransform implements CompoundTransformInterface,
+    BufferedTransformInterface
 {
     /**
      * Construct a new compound transform.
@@ -43,6 +44,24 @@ class CompoundTransform implements CompoundTransformInterface
     }
 
     /**
+     * Get the buffer size.
+     *
+     * This method is used to determine how much input is typically required
+     * before output can be produced. This can provide performance benefits by
+     * avoiding excessive method calls.
+     *
+     * @return integer The buffer size.
+     */
+    public function bufferSize()
+    {
+        if ($this->innerTransform instanceof BufferedTransformInterface) {
+            return $this->innerTransform->bufferSize();
+        }
+
+        return 1024;
+    }
+
+    /**
      * Transform the supplied data.
      *
      * This method may transform only part of the supplied data. The return
@@ -66,27 +85,27 @@ class CompoundTransform implements CompoundTransformInterface
     public function transform($data, &$context, $isEnd = false)
     {
         if (null === $context) {
-            $context = $this->createContext();
+            $context = $this->createContexts();
         }
 
-        // Transform the data using the inner most transform. This step is
-        // performed separately as unlike the outer transforms no buffering
-        // is performed.
         list($data, $actualConsumed, $error) = $this->innerTransform->transform(
             $data,
             $context[$this->innerTransform]->context,
             $isEnd
         );
 
-        // Iterate through each of the inner transforms, shunting output data
-        // from one to the input buffer of the next.
         foreach ($this->outerTransforms as $transform) {
-            if (null !== $error) {
-                return array($data, $actualConsumed, $error);
-            }
-
             $currentContext = $context[$transform];
             $currentContext->buffer .= $data;
+
+            if (null !== $error) {
+                return array('', $actualConsumed, $error);
+            }
+
+            $bufferSize = strlen($currentContext->buffer);
+            if (!$isEnd && $bufferSize < $currentContext->bufferSize) {
+                return array('', $actualConsumed, null);
+            }
 
             list($data, $consumed, $error) = $transform->transform(
                 $currentContext->buffer,
@@ -94,29 +113,38 @@ class CompoundTransform implements CompoundTransformInterface
                 $isEnd
             );
 
-            $currentContext->buffer = substr(
-                $currentContext->buffer,
-                $consumed
-            );
-
-            if (false === $currentContext->buffer) {
+            if ($bufferSize === $consumed) {
                 $currentContext->buffer = '';
+            } else {
+                $currentContext->buffer = substr(
+                    $currentContext->buffer,
+                    $consumed
+                );
             }
         }
 
         return array($data, $actualConsumed, $error);
     }
 
-    private function createContext()
+    private function createContexts()
     {
-        $context = new SplObjectStorage;
-        $context[$this->innerTransform] = new CompoundTransformSubContext;
+        $contexts = new SplObjectStorage;
+        $context = new CompoundTransformSubContext;
+        if ($this->innerTransform instanceof BufferedTransformInterface) {
+            $context->bufferSize = $this->innerTransform->bufferSize();
+        }
+        $contexts[$this->innerTransform] = $context;
 
         foreach ($this->outerTransforms as $transform) {
-            $context[$transform] = new CompoundTransformSubContext;
+            $context = new CompoundTransformSubContext;
+            if ($transform instanceof BufferedTransformInterface) {
+                $context->bufferSize = $transform->bufferSize();
+            }
+
+            $contexts[$transform] = $context;
         }
 
-        return $context;
+        return $contexts;
     }
 
     private $innerTransform;

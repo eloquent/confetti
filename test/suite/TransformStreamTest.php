@@ -14,6 +14,7 @@ namespace Eloquent\Confetti;
 use Base64DecodeTransform;
 use Eloquent\Confetti\Test\TestWritableStream;
 use Exception as NativeException;
+use Md5Transform;
 use PHPUnit_Framework_TestCase;
 
 /**
@@ -76,9 +77,16 @@ class TransformStreamTest extends PHPUnit_Framework_TestCase
 
     public function testConstructorDefaults()
     {
+        $this->stream = new TransformStream(new Md5Transform);
+
+        $this->assertSame(1024, $this->stream->bufferSize());
+    }
+
+    public function testConstructorDefaultsBuffered()
+    {
         $this->stream = new TransformStream($this->transform);
 
-        $this->assertSame(8192, $this->stream->bufferSize());
+        $this->assertSame(4, $this->stream->bufferSize());
     }
 
     public function testWriteEndEmpty()

@@ -28,6 +28,12 @@ abstract class AbstractNativeStreamFilter extends php_user_filter
         $this->buffer = '';
         $this->context = null;
 
+        if ($this->transform instanceof BufferedTransformInterface) {
+            $this->bufferSize = $this->transform->bufferSize();
+        } else {
+            $this->bufferSize = 1024;
+        }
+
         return true;
     }
 
@@ -52,13 +58,19 @@ abstract class AbstractNativeStreamFilter extends php_user_filter
         $hasOutput = false;
         while ($bucket) {
             $this->buffer .= $bucket->data;
-            $bufferLength = strlen($this->buffer);
+            $bufferSize = strlen($this->buffer);
+
+            if (!$isEnd && $bufferSize < $this->bufferSize) {
+                $bucket = stream_bucket_make_writeable($input);
+
+                continue;
+            }
 
             list($outputBuffer, $thisConsumed, $error) = $this->transform
                 ->transform($this->buffer, $this->context, $isEnd);
 
             $consumed += $thisConsumed;
-            if ($bufferLength === $thisConsumed) {
+            if ($bufferSize === $thisConsumed) {
                 $this->buffer = '';
             } else {
                 $this->buffer = substr($this->buffer, $thisConsumed);
@@ -93,5 +105,6 @@ abstract class AbstractNativeStreamFilter extends php_user_filter
 
     private $transform;
     private $buffer;
+    private $bufferSize;
     private $context;
 }

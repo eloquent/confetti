@@ -31,7 +31,11 @@ class TransformStream extends EventEmitter implements TransformStreamInterface
         $bufferSize = null
     ) {
         if (null === $bufferSize) {
-            $bufferSize = 8192;
+            if ($transform instanceof BufferedTransformInterface) {
+                $bufferSize = $transform->bufferSize();
+            } else {
+                $bufferSize = 1024;
+            }
         }
 
         $this->transform = $transform;
@@ -182,14 +186,14 @@ class TransformStream extends EventEmitter implements TransformStreamInterface
         $totalConsumed = 0;
 
         while (true) {
-            $bufferLength = strlen($this->buffer);
+            $bufferSize = strlen($this->buffer);
             if ($this->isPaused) {
                 break;
             }
-            if (!$this->isEnding && !$bufferLength) {
+            if (!$this->isEnding && !$bufferSize) {
                 break;
             }
-            if (!$this->isEnding && $bufferLength < $this->bufferSize) {
+            if (!$this->isEnding && $bufferSize < $this->bufferSize) {
                 break;
             }
 
@@ -198,7 +202,7 @@ class TransformStream extends EventEmitter implements TransformStreamInterface
 
             $totalConsumed += $consumed;
 
-            if ($bufferLength === $consumed) {
+            if ($bufferSize === $consumed) {
                 $this->buffer = '';
             } else {
                 $this->buffer = substr($this->buffer, $consumed);
@@ -216,7 +220,7 @@ class TransformStream extends EventEmitter implements TransformStreamInterface
                 return false;
             }
 
-            if ($this->isEnding && $bufferLength === $consumed) {
+            if ($this->isEnding && $bufferSize === $consumed) {
                 $this->doClose();
             }
         }

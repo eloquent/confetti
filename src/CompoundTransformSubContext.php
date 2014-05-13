@@ -18,4 +18,5 @@ class CompoundTransformSubContext
 {
     public $context;
     public $buffer = '';
+    public $bufferSize = 1024;
 }
