@@ -23,7 +23,7 @@
     </div>
         <div class="content">
                 <p>class    <strong>CompoundTransform</strong>        implements
-        <a href="../../Eloquent/Confetti/CompoundTransformInterface.html"><abbr title="Eloquent\Confetti\CompoundTransformInterface">CompoundTransformInterface</abbr></a></p>
+        <a href="../../Eloquent/Confetti/CompoundTransformInterface.html"><abbr title="Eloquent\Confetti\CompoundTransformInterface">CompoundTransformInterface</abbr></a>, <a href="../../Eloquent/Confetti/BufferedTransformInterface.html"><abbr title="Eloquent\Confetti\BufferedTransformInterface">BufferedTransformInterface</abbr></a></p>
 
             <div class="description">
             <p>A transform that combines several other transforms in sequence.</p>
@@ -58,6 +58,16 @@
             </tr>
                     <tr>
                 <td class="type">
+                    integer
+                </td>
+                <td class="last">
+                    <a href="#method_bufferSize">bufferSize</a>()
+                    <p>Get the buffer size.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
                     <abbr title="Eloquent\Confetti\tuple&lt;string,integer,mixed&gt;">tuple&lt;string,integer,mixed&gt;</abbr>
                 </td>
                 <td class="last">
@@ -72,7 +82,7 @@
         <h2>Details</h2>
 
                         <h3 id="method___construct">
-        <div class="location">at line 26</div>
+        <div class="location">at line 27</div>
         <code>            public            
     <strong>__construct</strong>(array $transforms)</code>
     </h3>
@@ -98,7 +108,7 @@
     </div>
 
                 <h3 id="method_transforms">
-        <div class="location">at line 37</div>
+        <div class="location">at line 38</div>
         <code>            public            <abbr title="Eloquent\Confetti\array&lt;TransformInterface&gt;">array&lt;TransformInterface&gt;</abbr>
     <strong>transforms</strong>()</code>
     </h3>
@@ -122,8 +132,34 @@
                     </div>
     </div>
 
+                <h3 id="method_bufferSize">
+        <div class="location">at line 55</div>
+        <code>            public            integer
+    <strong>bufferSize</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Get the buffer size.</p>
+        <p>This method is used to determine how much input is typically required
+before output can be produced. This can provide performance benefits by
+avoiding excessive method calls.</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>integer</td>
+            <td>The buffer size.</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
                 <h3 id="method_transform">
-        <div class="location">at line 66</div>
+        <div class="location">at line 85</div>
         <code>            public            <abbr title="Eloquent\Confetti\tuple&lt;string,integer,mixed&gt;">tuple&lt;string,integer,mixed&gt;</abbr>
     <strong>transform</strong>(string $data, mixed $context, boolean $isEnd = false)</code>
     </h3>
