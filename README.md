@@ -2,7 +2,7 @@
 
 *Streaming data transformation system for PHP.*
 
-[![The most recent stable version is 0.3.0][version-image]][Semantic versioning]
+[![The most recent stable version is 0.3.1][version-image]][Semantic versioning]
 [![Current build status image][build-image]][Current build status]
 [![Current coverage status image][coverage-image]][Current coverage status]
 
@@ -210,8 +210,10 @@ A base64 decode transform might be implemented like so:
 
 ```php
 use Eloquent\Confetti\AbstractTransform;
+use Eloquent\Confetti\BufferedTransformInterface;
 
-class Base64DecodeTransform extends AbstractTransform
+class Base64DecodeTransform extends AbstractTransform implements
+    BufferedTransformInterface
 {
     public function transform($data, &$context, $isEnd = false)
     {
@@ -232,11 +234,18 @@ class Base64DecodeTransform extends AbstractTransform
 
         return array($outputBuffer, $consume, null);
     }
+
+    public function bufferSize()
+    {
+        return 4;
+    }
 }
 ```
 
 This transform will now decode blocks of base64 data and append the result to
-the output buffer. The call to `AbstractTransform::blocksSize()` ensures that
+the output buffer. The `bufferSize()` method suggests an appropriate buffer size
+for classes that consume this transform (in this case, 4 bytes - the size of a
+base64 block), and the call to `AbstractTransform::blocksSize()` ensures that
 data is only consumed in blocks of 4 bytes at a time. If an invalid byte is
 passed, or the data stream ends at an invalid number of bytes, an exception is
 returned as the third tuple element to indicate the error.
@@ -316,4 +325,4 @@ $stream->end('bar'); // outputs '3858f62230ac3c915f300c664312c63f'
 [Current coverage status]: https://coveralls.io/r/eloquent/confetti
 [eloquent/confetti]: https://packagist.org/packages/eloquent/confetti
 [Semantic versioning]: http://semver.org/
-[version-image]: http://img.shields.io/:semver-0.3.0-yellow.svg "This project uses semantic versioning"
+[version-image]: http://img.shields.io/:semver-0.3.1-yellow.svg "This project uses semantic versioning"

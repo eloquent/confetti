@@ -49,10 +49,9 @@ abstract class AbstractNativeStreamFilter extends php_user_filter
      */
     public function filter($input, $output, &$consumed, $isEnd)
     {
-        if ($isEnd) {
+        $bucket = stream_bucket_make_writeable($input);
+        if ($isEnd && !$bucket) {
             $bucket = stream_bucket_new(STDIN, '');
-        } else {
-            $bucket = stream_bucket_make_writeable($input);
         }
 
         $hasOutput = false;
