@@ -1,5 +1,10 @@
 # Confetti changelog
 
+## 0.3.1 (2014-05-21)
+
+- **[FIXED]** Fixed strange bug with native stream filters when filtering final
+  data.
+
 ## 0.3.0 (2014-05-13)
 
 - **[NEW]** Introduced buffered transform interface for buffer size hinting.

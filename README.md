@@ -2,7 +2,7 @@
 
 *Streaming data transformation system for PHP.*
 
-[![The most recent stable version is 0.3.0][version-image]][Semantic versioning]
+[![The most recent stable version is 0.3.1][version-image]][Semantic versioning]
 [![Current build status image][build-image]][Current build status]
 [![Current coverage status image][coverage-image]][Current coverage status]
 
@@ -325,4 +325,4 @@ $stream->end('bar'); // outputs '3858f62230ac3c915f300c664312c63f'
 [Current coverage status]: https://coveralls.io/r/eloquent/confetti
 [eloquent/confetti]: https://packagist.org/packages/eloquent/confetti
 [Semantic versioning]: http://semver.org/
-[version-image]: http://img.shields.io/:semver-0.3.0-yellow.svg "This project uses semantic versioning"
+[version-image]: http://img.shields.io/:semver-0.3.1-yellow.svg "This project uses semantic versioning"
